@@ -14,4 +14,4 @@ Redesigned the university registration dashboard to reduce student stress and im
 
 ## Contact
 - Email: ivanfmdominguez@gmail.com
-- LinkedIn: (linkedin.com/in/ivan-dominguez-1673a02a0)
+- LinkedIn: [MyLinkedIn](linkedin.com/in/ivan-dominguez-1673a02a0)
