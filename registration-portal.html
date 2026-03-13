@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Portal Redesign — Ivan Dominguez</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg:        #F5F3EE;
+            --bg-card:   #FFFFFF;
+            --ink:       #1A1A18;
+            --ink-mid:   #5A5A52;
+            --ink-soft:  #9A9A90;
+            --accent:    #2A7D4F;
+            --accent-lt: #E8F5EE;
+            --border:    #DDD9D0;
+            --serif: 'Playfair Display', Georgia, serif;
+            --sans:  'DM Sans', system-ui, sans-serif;
+            --mono:  'DM Mono', monospace;
+        }
+
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--sans); background: var(--bg); color: var(--ink); line-height: 1.6; overflow-x: hidden; }
+
+        /* NAV */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1.4rem 5vw;
+            background: rgba(245,243,238,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-logo { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); text-decoration: none; }
+        .nav-back { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-mid); text-decoration: none; transition: color 0.2s; }
+        .nav-back:hover { color: var(--accent); }
+        .nav-back svg { transition: transform 0.2s; }
+        .nav-back:hover svg { transform: translateX(-3px); }
+
+        /* HERO */
+        .case-hero {
+            background: var(--ink);
+            padding: 14vh 8vw 8vh;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        .case-hero-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+        .htag {
+            font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--accent); border: 1px solid rgba(42,125,79,0.4); padding: 0.3rem 0.7rem; border-radius: 2px;
+        }
+        .case-hero h1 {
+            font-family: var(--serif); font-size: clamp(2.8rem, 6vw, 5.5rem); font-weight: 900;
+            line-height: 0.95; letter-spacing: -0.03em; color: var(--bg); max-width: 900px; margin-bottom: 1.5rem;
+        }
+        .case-hero h1 em { font-style: italic; color: var(--accent); }
+        .case-hero-sub { font-size: 1.05rem; color: rgba(245,243,238,0.5); max-width: 580px; line-height: 1.7; margin-bottom: 3rem; }
+
+        .meta-row {
+            display: flex; gap: 3rem; flex-wrap: wrap;
+            padding-top: 2.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .meta-item { display: flex; flex-direction: column; gap: 0.3rem; }
+        .meta-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(245,243,238,0.3); }
+        .meta-value { font-size: 0.9rem; color: rgba(245,243,238,0.75); font-weight: 500; }
+
+        /* CONTENT WRAPPER */
+        .content { max-width: 900px; margin: 0 auto; padding: 0 5vw; }
+
+        /* SECTIONS */
+        .case-section { padding: 7rem 0; border-bottom: 1px solid var(--border); }
+        .case-section:last-child { border-bottom: none; }
+
+        /* Phase label */
+        .phase-label {
+            font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase;
+            color: var(--accent); margin-bottom: 1rem;
+            display: flex; align-items: center; gap: 0.75rem;
+        }
+        .phase-label::before { content: ''; display: block; width: 24px; height: 1px; background: var(--accent); }
+
+        /* ALL section h2s — one consistent style */
+        .section-h2 {
+            font-family: var(--serif);
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+            color: var(--ink);
+        }
+        .section-h2 em { font-style: italic; color: var(--accent); }
+
+        .lead { font-size: 1rem; color: var(--ink-mid); line-height: 1.85; max-width: 700px; margin-bottom: 2.5rem; }
+        .body-text { font-size: 1rem; color: var(--ink-mid); line-height: 1.85; max-width: 700px; }
+        .body-text + .body-text { margin-top: 1.25rem; }
+
+        /* QUOTE — simple left border, no background box */
+        .pull-quote {
+            border-left: 3px solid var(--accent);
+            padding: 1rem 0 1rem 1.75rem;
+            margin: 2.5rem 0;
+        }
+        .pull-quote .quote-label {
+            font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase;
+            color: var(--accent); margin-bottom: 0.75rem;
+        }
+        .pull-quote p {
+            font-family: var(--serif); font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+            font-style: italic; line-height: 1.6; color: var(--ink);
+        }
+
+        /* FULL-WIDTH IMAGE */
+        .img-full { width: 100%; border-radius: 6px; border: 1px solid var(--border); display: block; margin: 2.5rem 0; }
+        .img-caption { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; color: var(--ink-soft); margin-top: -1.5rem; margin-bottom: 2.5rem; display: block; text-align: center; }
+
+        /* USER PROFILE CARDS */
+        .profiles {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 1px; background: var(--border);
+            margin: 3rem 0; border-radius: 6px; overflow: hidden;
+        }
+        .profile-card { background: var(--bg-card); padding: 2.5rem 2rem; display: flex; flex-direction: column; }
+        .profile-num { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 1.2rem; }
+        .profile-name { font-family: var(--serif); font-size: 1.25rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.35rem; color: var(--ink); }
+        .profile-sub { font-size: 0.88rem; color: var(--ink-soft); font-style: italic; margin-bottom: 1.75rem; }
+        .profile-actions { list-style: none; margin-bottom: 1.75rem; display: flex; flex-direction: column; gap: 0.6rem; flex: 1; }
+        .profile-actions li { font-size: 0.88rem; color: var(--ink-mid); line-height: 1.55; padding-left: 1.1rem; position: relative; }
+        .profile-actions li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: 0.8rem; }
+        /* Result — simple text, no red box */
+        .profile-result {
+            font-size: 0.88rem; color: var(--ink-mid);
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--border);
+        }
+        .profile-result strong { color: var(--ink); font-weight: 600; }
+
+        /* ANALYSIS TABLE */
+        .analysis-table { width: 100%; border-collapse: collapse; margin: 2.5rem 0; font-size: 0.92rem; }
+        .analysis-table th {
+            text-align: left; padding: 0.75rem 1rem;
+            font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--ink-soft); border-bottom: 2px solid var(--border);
+        }
+        .analysis-table td { padding: 1.2rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.65; color: var(--ink-mid); }
+        .analysis-table tr:last-child td { border-bottom: none; }
+        .analysis-table td strong { color: var(--ink); font-weight: 600; }
+        .issue-num {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 24px; height: 24px; border-radius: 50%;
+            background: var(--ink); color: var(--bg);
+            font-family: var(--mono); font-size: 0.65rem; font-weight: 700; flex-shrink: 0;
+        }
+
+        /* SOLUTION ITEMS */
+        .solutions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); border-radius: 6px; overflow: hidden; margin: 3rem 0; }
+        .solution-item { background: var(--bg-card); padding: 2rem; }
+        .sol-icon { font-size: 1.4rem; margin-bottom: 0.85rem; }
+        .sol-title { font-weight: 600; font-size: 0.97rem; margin-bottom: 0.5rem; color: var(--ink); }
+        .sol-desc { font-size: 0.9rem; color: var(--ink-mid); line-height: 1.7; }
+
+        /* FIGMA GRID */
+        .figma-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 3rem 0; }
+        .figma-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.06em; color: var(--ink-soft); margin-bottom: 0.75rem; display: block; }
+        .figma-img { width: 100%; border-radius: 6px; border: 1px solid var(--border); display: block; }
+
+        /* PROTOTYPE SECTION */
+        .proto-section { background: var(--ink); padding: 5rem 0; }
+        .proto-inner { max-width: 900px; margin: 0 auto; padding: 0 5vw; }
+        .proto-phase { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
+        .proto-phase::before { content: ''; display: block; width: 24px; height: 1px; background: var(--accent); }
+        .proto-h2 { font-family: var(--serif); font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 700; color: var(--bg); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1rem; }
+        .proto-sub { font-size: 1rem; color: rgba(245,243,238,0.5); max-width: 620px; line-height: 1.8; margin-bottom: 2.5rem; }
+        .proto-states { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 3rem; }
+        .proto-state-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(245,243,238,0.35); margin-bottom: 0.6rem; display: block; }
+        .proto-img { width: 100%; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); display: block; }
+
+        .proto-btn {
+            display: inline-flex; align-items: center; gap: 0.6rem;
+            background: var(--accent); color: #fff; text-decoration: none;
+            font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+            padding: 1rem 2rem; border-radius: 3px; transition: background 0.2s;
+        }
+        .proto-btn:hover { background: #1f6040; }
+        .proto-btn svg { transition: transform 0.2s; }
+        .proto-btn:hover svg { transform: translateX(3px); }
+
+        /* Hint text under button */
+        .proto-hint {
+            margin-top: 1rem;
+            font-size: 0.88rem;
+            color: rgba(245,243,238,0.4);
+            line-height: 1.65;
+        }
+        .proto-hint em { color: rgba(245,243,238,0.7); font-style: normal; font-weight: 500; }
+
+        /* REFLECTION */
+        .reflection-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 2.5rem; }
+        .refl-title { font-weight: 600; font-size: 0.95rem; color: var(--ink); margin-bottom: 0.75rem; }
+        .refl-body { font-size: 0.97rem; color: var(--ink-mid); line-height: 1.8; }
+        .refl-body + .refl-body { margin-top: 1rem; }
+
+        /* BOTTOM BAR */
+        .next-bar { background: var(--ink); padding: 4rem 8vw; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem; }
+        .next-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(245,243,238,0.3); margin-bottom: 0.5rem; }
+        .next-title { font-family: var(--serif); font-size: 1.4rem; font-weight: 700; color: rgba(245,243,238,0.8); }
+        .next-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); text-decoration: none; border: 1px solid rgba(42,125,79,0.4); padding: 0.8rem 1.4rem; border-radius: 2px; transition: all 0.2s; }
+        .next-btn:hover { background: rgba(42,125,79,0.1); }
+
+        /* REVEAL */
+        .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.on { opacity: 1; transform: none; }
+
+        @media (max-width: 700px) {
+            .profiles { grid-template-columns: 1fr; }
+            .figma-grid, .proto-states, .reflection-grid, .solutions { grid-template-columns: 1fr; }
+            .meta-row { gap: 1.5rem; }
+            .case-hero { padding: 12vh 5vw 6vh; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="nav-back">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back to Portfolio
+    </a>
+    <a href="index.html" class="nav-logo">I.D.</a>
+</nav>
+
+<!-- HERO -->
+<header class="case-hero">
+    <div class="case-hero-tags">
+        <span class="htag">UX Research</span>
+        <span class="htag">UI Design</span>
+        <span class="htag">Figma</span>
+        <span class="htag">HTML / JavaScript</span>
+        <span class="htag">Individual Project</span>
+    </div>
+    <h1>Registration Portal <em>Redesign</em></h1>
+    <p class="case-hero-sub">
+        Students were calling IT support because they couldn't figure out how to register for classes.
+        I found out why, designed a fix, and built it.
+    </p>
+    <div class="meta-row">
+        <div class="meta-item">
+            <span class="meta-label">Role</span>
+            <span class="meta-value">UX Researcher &amp; Designer</span>
+        </div>
+        <div class="meta-item">
+            <span class="meta-label">Tools</span>
+            <span class="meta-value">Figma, HTML, CSS, JavaScript</span>
+        </div>
+    </div>
+</header>
+
+<div class="content">
+
+    <!-- OVERVIEW -->
+    <section class="case-section reveal">
+        <div class="phase-label">Overview</div>
+        <h2 class="section-h2">The problem with the <em>existing</em> portal</h2>
+        <p class="lead">
+            Judson University's registration portal put every possible piece of information on one screen —
+            with no visual hierarchy, no urgency signals, and no clear path to action. Students consistently
+            got confused and called support instead of completing registration themselves.
+        </p>
+
+        <div class="pull-quote">
+            <div class="quote-label">The core problem</div>
+            <p>"The dashboard attempts to be everything to everyone. Instead, it should contextually adapt to what each student needs."</p>
+        </div>
+
+        <img src="Registration_Portal_b4.png" alt="Original registration portal" class="img-full">
+        <span class="img-caption">Fig. 1 — The original Judson University registration portal</span>
+
+        <p class="body-text">
+            Four competing content panels with identical visual weight. Critical action buttons buried next to low-priority links.
+            A Choir/Ensemble banner consuming 25% of screen space relevant to less than 5% of students.
+            A course schedule presented as a table — not a calendar — making time planning nearly impossible.
+        </p>
+    </section>
+
+    <!-- PHASE 1: RESEARCH -->
+    <section class="case-section reveal">
+        <div class="phase-label">Phase 1 — Research</div>
+        <h2 class="section-h2">Listening to <em>real students</em></h2>
+        <p class="lead">
+            I gathered insights through informal conversations with peers during registration periods.
+            Three distinct patterns emerged, each revealing a different kind of failure in the existing interface.
+        </p>
+
+        <div class="profiles">
+            <div class="profile-card">
+                <div class="profile-num">Student 01</div>
+                <div class="profile-name">The Overwhelmed Senior</div>
+                <div class="profile-sub">Logging in 2 days before registration opens</div>
+                <ul class="profile-actions">
+                    <li>Confused by four content areas with identical visual weight</li>
+                    <li>Clicks "View Details" under schedule out of habit</li>
+                    <li>Misses the red "Holds" button — it's below the fold</li>
+                    <li>Can't locate their registration time ticket</li>
+                </ul>
+                <div class="profile-result"><strong>Result:</strong> Unnecessary call to the registrar's office</div>
+            </div>
+            <div class="profile-card">
+                <div class="profile-num">Student 02</div>
+                <div class="profile-name">The Confused Freshman</div>
+                <div class="profile-sub">Registering for the first time, alone</div>
+                <ul class="profile-actions">
+                    <li>Immediate overwhelm — no clear entry point</li>
+                    <li>Reads entire FAQ section looking for "how to register"</li>
+                    <li>Doesn't realize the Student Registration box is where actions live</li>
+                    <li>Assumes the site is broken</li>
+                </ul>
+                <div class="profile-result"><strong>Result:</strong> Calls IT support</div>
+            </div>
+            <div class="profile-card">
+                <div class="profile-num">Student 03</div>
+                <div class="profile-name">The Efficient Planner</div>
+                <div class="profile-sub">Optimizing schedule before registration opens</div>
+                <ul class="profile-actions">
+                    <li>Needs to see registered and planned courses side-by-side</li>
+                    <li>Current table only shows administrative data</li>
+                    <li>Must navigate to separate page for weekly calendar view</li>
+                    <li>Can't compare "registered" vs "planned" in one view</li>
+                </ul>
+                <div class="profile-result"><strong>Result:</strong> Inefficient back-and-forth navigation</div>
+            </div>
+        </div>
+
+        <p class="body-text">
+            The common thread across all three profiles: the interface forced users to <strong>hunt</strong> for information
+            rather than surfacing what they needed based on context. A student with a hold needed to see that immediately.
+            A student planning their schedule needed a visual calendar. The original portal gave everyone the same cluttered view regardless of their situation.
+        </p>
+    </section>
+
+    <!-- PHASE 2: ANALYSIS -->
+    <section class="case-section reveal">
+        <div class="phase-label">Phase 2 — Analysis</div>
+        <h2 class="section-h2">Four root <em>failures</em></h2>
+        <p class="lead">
+            I annotated the original interface to trace each user frustration back to a specific structural or
+            visual design decision. Four distinct issues accounted for the majority of confusion.
+        </p>
+
+        <img src="Registration_Portal_Analysis.png" alt="Annotated analysis of the original portal" class="img-full">
+        <span class="img-caption">Fig. 2 — Annotated analysis of the original portal identifying four root UX failures</span>
+
+        <table class="analysis-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Issue</th>
+                    <th>Evidence</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="issue-num">①</span></td>
+                    <td><strong>No information hierarchy</strong></td>
+                    <td>All 4 dashboard sections compete for attention with identical visual weight — there is no clear path through the page</td>
+                </tr>
+                <tr>
+                    <td><span class="issue-num">②</span></td>
+                    <td><strong>Action discoverability failure</strong></td>
+                    <td>Critical buttons ("Holds", "Registration Clearance") are styled the same size as passive links ("Register", "Course search")</td>
+                </tr>
+                <tr>
+                    <td><span class="issue-num">③</span></td>
+                    <td><strong>Administrative schedule view</strong></td>
+                    <td>Table layout shows course codes and meeting times in rows — useful for admins, not for students trying to visualize their week</td>
+                </tr>
+                <tr>
+                    <td><span class="issue-num">④</span></td>
+                    <td><strong>Low-relevance content, high screen cost</strong></td>
+                    <td>Choir/Ensemble banner consumes ~25% of total screen real estate, relevant to under 5% of users</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="pull-quote">
+            <div class="quote-label">Root cause</div>
+            <p>"The interface presents all possible information simultaneously, forcing users to parse irrelevant content to find their specific need — instead of adapting to what each student actually requires."</p>
+        </div>
+    </section>
+
+    <!-- PHASE 3: DESIGN -->
+    <section class="case-section reveal">
+        <div class="phase-label">Phase 3 — Design</div>
+        <h2 class="section-h2">Designing the <em>solution</em> in Figma</h2>
+        <p class="lead">
+            The redesign focused on one core principle: surface what matters right now for this student,
+            and get everything else out of the way. I designed two key states — registration open, and registration
+            closed with holds — to address the most critical moments students face.
+        </p>
+
+        <div class="solutions">
+            <div class="solution-item">
+                <div class="sol-icon">🎯</div>
+                <div class="sol-title">Clear information hierarchy</div>
+                <p class="sol-desc">Registration status card is the first thing students see — large, prominent, with a clear status indicator and primary action button.</p>
+            </div>
+            <div class="solution-item">
+                <div class="sol-icon">⚠️</div>
+                <div class="sol-title">Holds surfaced immediately</div>
+                <p class="sol-desc">When a hold exists, it's shown as a high-contrast alert with a direct "Resolve Hold Now" link — not buried below the fold.</p>
+            </div>
+            <div class="solution-item">
+                <div class="sol-icon">📅</div>
+                <div class="sol-title">Visual weekly calendar</div>
+                <p class="sol-desc">Replaced the administrative table with a time-grid calendar. Students can see their week at a glance and understand scheduling conflicts instantly.</p>
+            </div>
+            <div class="solution-item">
+                <div class="sol-icon">🔀</div>
+                <div class="sol-title">Registered vs. Planned side-by-side</div>
+                <p class="sol-desc">A sidebar shows both registered and planned courses together, with color coding — solving the back-and-forth navigation problem directly.</p>
+            </div>
+        </div>
+
+        <div class="figma-grid">
+            <div>
+                <span class="figma-label">Figma — Registration Open state</span>
+                <img src="figma_designopen_portal.png" alt="Figma design - registration open" class="figma-img">
+            </div>
+            <div>
+                <span class="figma-label">Figma — Registration Closed with Holds</span>
+                <img src="figma_designclose_portal.png" alt="Figma design - registration closed with holds" class="figma-img">
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!-- PHASE 4: PROTOTYPE -->
+<section class="proto-section reveal">
+    <div class="proto-inner">
+        <div class="proto-phase">Phase 4 — Prototype</div>
+        <h2 class="proto-h2">Built in HTML — not just Figma</h2>
+        <p class="proto-sub">
+            I translated the Figma designs directly into a working prototype. The portal is fully interactive —
+            the registration status can be toggled to simulate both open and closed states, including holds and advisor clearance alerts.
+        </p>
+
+        <div class="proto-states">
+            <div>
+                <span class="proto-state-label">State A — Registration Open</span>
+                <img src="RP_weblook_opennoholds.png" alt="Final prototype - registration open" class="proto-img">
+            </div>
+            <div>
+                <span class="proto-state-label">State B — Registration Closed with Holds</span>
+                <img src="RP_weblook_closeholds.png" alt="Final prototype - registration closed with holds" class="proto-img">
+            </div>
+        </div>
+
+        <a href="Registration_Portal.html" target="_blank" class="proto-btn">
+            Open Live Prototype
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+        </a>
+        <p class="proto-hint">
+            Once open, click <em>"Registration Is Now Open"</em> to toggle between the open and closed states of the prototype.
+        </p>
+    </div>
+</section>
+
+<!-- REFLECTION -->
+<div class="content">
+    <section class="case-section reveal">
+        <div class="phase-label">Reflection</div>
+        <h2 class="section-h2">What I <em>learned</em></h2>
+        <p class="lead">
+            This project taught me that the gap between a frustrating interface and a clear one is rarely
+            a matter of aesthetics — it's almost always about information priority.
+        </p>
+
+        <div class="reflection-grid">
+            <div>
+                <div class="refl-title">What worked well</div>
+                <p class="refl-body">
+                    Grounding every design decision in specific user observations kept the redesign focused.
+                    When I felt tempted to add features, I'd ask: "which student profile does this solve for?"
+                    That constraint produced a cleaner, more intentional result.
+                </p>
+                <p class="refl-body">
+                    Building it in HTML rather than leaving it as a Figma prototype forced me to confront edge cases —
+                    like what happens when registration is closed but the student has no holds — that pure design work would have glossed over.
+                </p>
+            </div>
+            <div>
+                <div class="refl-title">If I were to continue</div>
+                <p class="refl-body">
+                    I'd build this in React with a lightweight backend pulling live deadline data from the university's API.
+                    I'd also run formal usability testing with actual students — having three people observe a task completion
+                    flow would surface issues my own analysis couldn't catch.
+                </p>
+                <p class="refl-body">
+                    An accessibility audit would be a priority next step — color contrast, keyboard navigation,
+                    and screen reader support were not formally evaluated in this version.
+                </p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- NEXT -->
+<div class="next-bar">
+    <div>
+        <div class="next-label">Next project</div>
+        <div class="next-title">Coming soon…</div>
+    </div>
+    <a href="index.html" class="next-btn">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back to all work
+    </a>
+</div>
+
+<script>
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>

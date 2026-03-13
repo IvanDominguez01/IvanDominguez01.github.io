@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        
+        /* Custom Scrollbar for Schedule */
+        .schedule-scroll::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        .schedule-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .schedule-scroll::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        .schedule-scroll::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Smooth transitions */
+        .transition-all-300 {
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Card Hover Effects */
+        .course-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .course-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            z-index: 10;
+        }
+
+        /* Animation for status change */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        /* Toggle link styling */
+        .status-toggle {
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .status-toggle:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto space-y-6">
+        
+        <!-- Header Section -->
+        <header class="mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Registration Portal</h1>
+            <div class="flex flex-col gap-2">
+                <p class="text-gray-600 font-medium text-lg">Student Name and ID</p>
+                
+                <!-- Semester Selector - Moved under student name -->
+                <div class="relative inline-block">
+                    <button id="semesterBtn" class="inline-flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-md font-medium transition-colors w-fit">
+                        <span id="currentSemester">2025 Fall Semester</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <!-- Dropdown (Hidden by default) -->
+                    <div id="semesterDropdown" class="hidden absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 border border-gray-200">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">2025 Fall Semester</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">2025 Spring Semester</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">2024 Fall Semester</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Top Grid: Status & FAQ -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Registration Status Card -->
+            <div class="lg:col-span-2 bg-white rounded-lg shadow-sm border border-gray-200 p-6 animate-fade-in">
+                <h2 class="text-xl font-bold text-gray-900 mb-4">Registration Status</h2>
+                
+                <div id="statusContainer">
+                    <!-- Dynamic Content Injected Here -->
+                </div>
+            </div>
+
+            <!-- FAQ & Help Card -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 flex flex-col justify-between h-full">
+                <div>
+                    <h2 class="text-xl font-bold text-gray-900 mb-2">Registration FAQ</h2>
+                    <p class="text-sm text-gray-600 mb-4">Common questions about course registration and enrollment.</p>
+                    <button class="border border-gray-400 text-gray-700 px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-50 transition-colors">
+                        View FAQ
+                    </button>
+                </div>
+                
+                <div class="mt-8">
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Need Help?</h3>
+                    <p class="text-sm text-gray-600 mb-1">Contact the registrar's office for assistance:</p>
+                    <a href="mailto:registrarsoffice@university.edu" class="text-sm text-blue-600 hover:underline break-all">
+                        registrarsoffice@university.edu
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Schedule Section -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                <h2 class="text-2xl font-bold text-gray-900">My Schedule</h2>
+                
+                <!-- Search -->
+                <div class="relative w-full md:w-64">
+                    <input type="text" placeholder="Course Search" class="w-full pl-3 pr-10 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 absolute right-3 top-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="flex flex-col xl:flex-row gap-6">
+                
+                <!-- Weekly Calendar Grid -->
+                <div class="flex-1 overflow-x-auto schedule-scroll pb-2">
+                    <div class="min-w-[600px]">
+                        <!-- Header Row -->
+                        <div class="grid grid-cols-[60px_1fr_1fr_1fr_1fr_1fr] border-b border-gray-200 text-sm font-semibold text-gray-600">
+                            <div class="p-3 text-center">Time</div>
+                            <div class="p-3 text-center border-l border-gray-100">Mon</div>
+                            <div class="p-3 text-center border-l border-gray-100">Tue</div>
+                            <div class="p-3 text-center border-l border-gray-100">Wed</div>
+                            <div class="p-3 text-center border-l border-gray-100">Thu</div>
+                            <div class="p-3 text-center border-l border-gray-100">Fri</div>
+                        </div>
+
+                        <!-- Time Slots -->
+                        <div id="scheduleGrid" class="relative">
+                            <!-- Generated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar: Course Lists -->
+                <div class="w-full xl:w-80 flex flex-col gap-6">
+                    
+                    <!-- Registered List -->
+                    <div>
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="w-3 h-3 rounded-sm bg-green-100 border border-green-500"></div>
+                            <h3 class="font-bold text-gray-800">Registered (<span id="registeredCount">0</span>)</h3>
+                        </div>
+                        <div id="registeredList" class="space-y-3">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Planned List -->
+                    <div>
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="w-3 h-3 rounded-sm bg-blue-100 border border-blue-500"></div>
+                            <h3 class="font-bold text-gray-800">Planned (<span id="plannedCount">0</span>)</h3>
+                        </div>
+                        <div id="plannedList" class="space-y-3">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="grid grid-cols-2 gap-3 mt-2">
+                        <button onclick="app.addCourse()" class="flex items-center justify-center gap-1 border border-gray-400 text-gray-700 py-2 rounded-md text-sm font-medium hover:bg-gray-50 transition-colors">
+                            <span>+</span> Add Course
+                        </button>
+                        <button onclick="app.dropCourse()" class="flex items-center justify-center gap-1 border border-gray-400 text-gray-700 py-2 rounded-md text-sm font-medium hover:bg-gray-50 transition-colors">
+                            <span>-</span> Drop Course
+                        </button>
+                    </div>
+                    
+                    <button id="mainActionBtn" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 rounded-md shadow-sm transition-colors">
+                        Register Courses
+                    </button>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        const app = {
+            // State
+            isRegistrationOpen: true,
+            hasHolds: false,
+            
+            // Data
+            courses: [
+                {
+                    id: 1,
+                    code: 'CSC 181-1',
+                    name: 'Intro to Computer Science',
+                    days: ['Mon', 'Wed', 'Fri'],
+                    startTime: '9:00 AM',
+                    endTime: '10:00 AM',
+                    location: 'Building A - Room 101',
+                    credits: 3,
+                    type: 'registered',
+                    color: 'green'
+                },
+                {
+                    id: 2,
+                    code: 'PHYS 201-1',
+                    name: 'Physics II',
+                    days: ['Mon', 'Wed'],
+                    startTime: '10:00 AM',
+                    endTime: '11:30 AM',
+                    location: 'Science Bldg - Room 401',
+                    credits: 4,
+                    type: 'planned',
+                    color: 'blue'
+                },
+                {
+                    id: 3,
+                    code: 'MATH 101-2',
+                    name: 'Calculus I',
+                    days: ['Tue', 'Thu'],
+                    startTime: '11:00 AM',
+                    endTime: '12:30 PM',
+                    location: 'Math Building - Room 105',
+                    credits: 4,
+                    type: 'registered',
+                    color: 'green'
+                },
+                {
+                    id: 4,
+                    code: 'ENG 201-3',
+                    name: 'Advanced Writing',
+                    days: ['Mon', 'Wed', 'Fri'],
+                    startTime: '2:00 PM',
+                    endTime: '3:00 PM',
+                    location: 'Library - Room 302',
+                    credits: 3,
+                    type: 'registered',
+                    color: 'green'
+                }
+            ],
+
+            timeSlots: [
+                '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', 
+                '1 PM', '2 PM', '3 PM', '4 PM', '5 PM'
+            ],
+
+            init() {
+                this.renderStatus();
+                this.renderSchedule();
+                this.renderSidebar();
+                this.setupEventListeners();
+            },
+
+            setupEventListeners() {
+                // Semester Dropdown Toggle
+                const btn = document.getElementById('semesterBtn');
+                const dropdown = document.getElementById('semesterDropdown');
+                
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    dropdown.classList.toggle('hidden');
+                });
+
+                document.addEventListener('click', () => {
+                    dropdown.classList.add('hidden');
+                });
+            },
+
+            toggleRegistrationStatus() {
+                this.isRegistrationOpen = !this.isRegistrationOpen;
+                this.hasHolds = !this.isRegistrationOpen; // Simulate holds when closed
+                this.renderStatus();
+                
+                // Update courses based on status
+                if (!this.isRegistrationOpen) {
+                    // Clear schedule visually if closed
+                    this.courses.forEach(c => c.type = 'planned');
+                } else {
+                    // Restore default state
+                    this.courses[0].type = 'registered';
+                    this.courses[2].type = 'registered';
+                    this.courses[3].type = 'registered';
+                    this.courses[1].type = 'planned';
+                }
+                this.renderSchedule();
+                this.renderSidebar();
+            },
+
+            renderStatus() {
+                const container = document.getElementById('statusContainer');
+                const mainBtn = document.getElementById('mainActionBtn');
+                
+                if (this.isRegistrationOpen) {
+                    // OPEN STATE
+                    container.innerHTML = `
+                        <div class="flex items-center gap-3 mb-2 animate-fade-in">
+                            <div class="w-4 h-4 rounded-full bg-green-500 shadow-sm"></div>
+                            <h3 class="text-lg font-semibold text-gray-900 status-toggle" onclick="app.toggleRegistrationStatus()" title="Click to toggle status">Registration Is Now Open</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">Your Registration Time: August 1 at 9:00 AM</p>
+                        <p class="text-gray-800 font-medium mb-4">You may now register for Fall 2025 courses.</p>
+                        <button class="border border-green-600 text-green-700 px-6 py-3 rounded-md font-large transition-colors cursor-default">
+                            Register Now
+                        </button>
+                    `;
+                    mainBtn.textContent = "Register Courses";
+                    mainBtn.className = "w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 rounded-md shadow-sm transition-colors";
+                    mainBtn.disabled = false;
+                } else {
+                    // CLOSED / HOLD STATE
+                    container.innerHTML = `
+                        <div class="flex items-center gap-3 mb-2 animate-fade-in">
+                            <div class="w-4 h-4 rounded-full bg-red-500 shadow-sm"></div>
+                            <h3 class="text-lg font-semibold text-gray-900 status-toggle" onclick="app.toggleRegistrationStatus()" title="Click to toggle status">Registration Is Closed</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">Registration Opens: August 1 at 9:00 AM</p>
+                        
+                        <div class="flex flex-wrap gap-4 mt-4">
+                            <!-- Hold Alert -->
+                            <div class="flex-1 min-w-[250px]">
+                                <div class="inline-flex items-center gap-2 bg-red-100 text-red-800 px-3 py-1 rounded text-sm font-semibold mb-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                    You have 1 hold preventing registration
+                                </div>
+                                <br>
+                                <button class="border border-red-300 text-red-700 px-6 py-3 rounded-md font-medium text-base transition-colors inline-flex items-center gap-1 cursor-default">
+                                    Resolve Hold Now
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                                </button>
+                            </div>
+
+                            <!-- Advisor Clearance -->
+                            <div class="flex-1 min-w-[250px] border border-yellow-200 bg-yellow-50 rounded-md p-3">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <svg class="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span class="font-bold text-yellow-800 text-sm">Advisor Clearance Required</span>
+                                </div>
+                                <p class="text-xs text-yellow-800 leading-relaxed">
+                                    Please contact your academic advisor for clearance prior to registration.
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                    mainBtn.textContent = "Registration Closed";
+                    mainBtn.className = "w-full bg-gray-400 cursor-not-allowed text-white font-medium py-2.5 rounded-md shadow-sm";
+                    mainBtn.disabled = true;
+                }
+            },
+
+            renderSchedule() {
+                const grid = document.getElementById('scheduleGrid');
+                grid.innerHTML = '';
+
+                // Create Time Slot Rows
+                this.timeSlots.forEach((time, index) => {
+                    const row = document.createElement('div');
+                    row.className = 'grid grid-cols-[60px_1fr_1fr_1fr_1fr_1fr] border-b border-gray-100 min-h-[80px]';
+                    
+                    // Time Label
+                    const timeCell = document.createElement('div');
+                    timeCell.className = 'p-3 text-xs text-gray-500 text-center border-r border-gray-100 bg-gray-50';
+                    timeCell.textContent = time;
+                    row.appendChild(timeCell);
+
+                    // Day Cells
+                    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+                    days.forEach(day => {
+                        const cell = document.createElement('div');
+                        cell.className = 'border-r border-gray-100 relative p-1';
+                        cell.dataset.day = day;
+                        cell.dataset.time = time;
+                        
+                        // Check for courses
+                        this.courses.forEach(course => {
+                            if (course.type !== 'registered') return; // Only show registered on calendar
+                            
+                            // Simple logic to place course (simplified for demo)
+                            // In a real app, calculate exact positioning based on time
+                            const courseStartHour = parseInt(course.startTime.split(':')[0]);
+                            const slotHour = parseInt(time.split(' ')[0]);
+                            const isAM = time.includes('AM');
+                            const courseIsAM = course.startTime.includes('AM');
+                            
+                            // Normalize to 24h for comparison
+                            const slot24 = isAM ? (slotHour === 12 ? 0 : slotHour) : (slotHour === 12 ? 12 : slotHour + 12);
+                            const course24 = courseIsAM ? (courseStartHour === 12 ? 0 : courseStartHour) : (courseStartHour === 12 ? 12 : courseStartHour + 12);
+
+                            if (course.days.includes(day) && course24 === slot24) {
+                                const card = document.createElement('div');
+                                const colorClass = course.color === 'green' ? 'bg-green-50 border-green-200 text-green-900' : 'bg-blue-50 border-blue-200 text-blue-900';
+                                
+                                card.className = `course-card absolute inset-1 rounded border ${colorClass} p-2 text-xs flex flex-col justify-center overflow-hidden cursor-pointer`;
+                                card.innerHTML = `
+                                    <div class="font-bold truncate">${course.code}</div>
+                                    <div class="truncate opacity-90">${course.name}</div>
+                                    <div class="truncate opacity-75 mt-1 text-[10px]">${course.location}</div>
+                                `;
+                                cell.appendChild(card);
+                            }
+                        });
+
+                        row.appendChild(cell);
+                    });
+
+                    grid.appendChild(row);
+                });
+            },
+
+            renderSidebar() {
+                const regList = document.getElementById('registeredList');
+                const planList = document.getElementById('plannedList');
+                const regCount = document.getElementById('registeredCount');
+                const planCount = document.getElementById('plannedCount');
+
+                regList.innerHTML = '';
+                planList.innerHTML = '';
+
+                let rCount = 0;
+                let pCount = 0;
+
+                this.courses.forEach(course => {
+                    const item = document.createElement('div');
+                    const isReg = course.type === 'registered';
+                    
+                    const colorClass = isReg 
+                        ? 'border-l-4 border-green-500 bg-green-50/30' 
+                        : 'border-l-4 border-blue-500 bg-blue-50/30';
+                    
+                    const badgeClass = isReg
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-blue-100 text-blue-800';
+
+                    item.className = `${colorClass} p-3 rounded-r-md shadow-sm border border-gray-100 border-l-0 hover:shadow-md transition-shadow cursor-pointer`;
+                    item.innerHTML = `
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-bold text-gray-900 text-sm">${course.code}</h4>
+                                <p class="text-xs text-gray-600 mb-1">${course.name}</p>
+                                <p class="text-[10px] text-gray-500">${course.days.join(', ')}</p>
+                                <p class="text-[10px] text-gray-500">${course.startTime} - ${course.endTime}</p>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <span class="inline-block ${badgeClass} text-[10px] font-bold px-2 py-0.5 rounded-full">
+                                ${course.credits} credits
+                            </span>
+                        </div>
+                    `;
+
+                    if (isReg) {
+                        regList.appendChild(item);
+                        rCount++;
+                    } else {
+                        planList.appendChild(item);
+                        pCount++;
+                    }
+                });
+
+                regCount.textContent = rCount;
+                planCount.textContent = pCount;
+            },
+
+            addCourse() {
+                // Simulation
+                alert("Add Course functionality would open a modal here.");
+            },
+
+            dropCourse() {
+                // Simulation
+                alert("Drop Course functionality would open a confirmation here.");
+            }
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            app.init();
+        });
+    </script>
+</body>
+</html>
