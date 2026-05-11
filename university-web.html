@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>University Web Projects — Ivan Dominguez</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:     #F5F3EE;
+      --ink:    #1A1A18;
+      --accent: #2A7D4F;
+      --ink-2:  #4A4A46;
+      --ink-3:  #7A7A74;
+      --line:   #DDD9D0;
+      --card:   #EFEDE7;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line);
+      padding: 0 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+    .nav-links { display: flex; gap: 36px; }
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-2);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 96px 60px 80px;
+      max-width: 1100px;
+      margin: 0 auto;
+      border-bottom: 1px solid var(--line);
+    }
+    .hero-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .hero-label::before {
+      content: '';
+      display: inline-block;
+      width: 28px;
+      height: 1px;
+      background: var(--accent);
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(40px, 6vw, 64px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      max-width: 780px;
+      margin-bottom: 24px;
+    }
+    .hero-desc {
+      font-size: 17px;
+      color: var(--ink-2);
+      max-width: 620px;
+      line-height: 1.75;
+      margin-bottom: 40px;
+    }
+
+    /* Meta row */
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 36px;
+    }
+    .meta-item {}
+    .meta-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 4px;
+    }
+    .meta-value {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    /* ── SHARED SECTION ── */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 60px;
+      border-bottom: 1px solid var(--line);
+    }
+    .section:last-of-type { border-bottom: none; }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(26px, 4vw, 36px);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.2;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+    .section-subtitle {
+      font-size: 16px;
+      color: var(--ink-2);
+      max-width: 640px;
+      line-height: 1.75;
+      margin-bottom: 48px;
+    }
+
+    /* Divider between sub-projects */
+    .sub-divider {
+      border: none;
+      border-top: 1px solid var(--line);
+      margin: 80px 0;
+    }
+
+    /* ── CONTEXT BLOCK ── */
+    .context-block {
+      background: var(--card);
+      border-left: 3px solid var(--accent);
+      padding: 28px 32px;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 48px;
+    }
+    .context-block p {
+      font-size: 15px;
+      color: var(--ink-2);
+      line-height: 1.75;
+    }
+
+    /* ── PROJECT HEADER ── */
+    .project-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+    .project-header-left {}
+    .project-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .project-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+    .view-live-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      border: 1px solid var(--ink);
+      padding: 10px 18px;
+      border-radius: 2px;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+    .view-live-btn:hover {
+      background: var(--ink);
+      color: var(--bg);
+    }
+    .view-live-btn svg { width: 12px; height: 12px; }
+
+    /* ── BEFORE / AFTER ── */
+    .before-after {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .ba-panel {}
+    .ba-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .ba-label .ba-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      display: inline-block; flex-shrink: 0;
+    }
+    .ba-dot-before { background: var(--ink-3); }
+    .ba-dot-after  { background: var(--accent); }
+
+    .ba-img-wrap {
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--card);
+    }
+    .ba-img-wrap img {
+      width: 100%;
+      display: block;
+    }
+    .ba-placeholder {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: var(--card);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--ink-3);
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 24px;
+    }
+    .ba-placeholder svg { width: 32px; height: 32px; opacity: 0.35; }
+
+    /* ── ANNOTATION CALLOUTS ── */
+    .callouts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .callout {
+      background: var(--card);
+      border-radius: 4px;
+      padding: 20px 22px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .callout-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      font-weight: 500;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .callout-body {}
+    .callout-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .callout-desc {
+      font-size: 13px;
+      color: var(--ink-2);
+      line-height: 1.6;
+    }
+
+    /* ── FULL-PAGE SCREENSHOT ── */
+    .full-screenshot {
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 48px;
+    }
+    .screenshot-bar {
+      background: var(--card);
+      border-bottom: 1px solid var(--line);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-r { background: #FF5F57; }
+    .dot-y { background: #FFBD2E; }
+    .dot-g { background: #27C93F; }
+    .screenshot-bar-url {
+      margin-left: 12px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--ink-3);
+      letter-spacing: 0.04em;
+    }
+    .full-screenshot img {
+      width: 100%;
+      display: block;
+    }
+    .full-screenshot-placeholder {
+      width: 100%;
+      min-height: 380px;
+      background: var(--card);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--ink-3);
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .full-screenshot-placeholder svg { width: 36px; height: 36px; opacity: 0.3; }
+
+    /* ── IA DECISIONS GRID ── */
+    .decisions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+    .decision-card {
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 24px 22px;
+    }
+    .decision-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--accent);
+      opacity: 0.5;
+      margin-bottom: 10px;
+    }
+    .decision-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .decision-desc {
+      font-size: 13px;
+      color: var(--ink-2);
+      line-height: 1.65;
+    }
+
+    /* ── ROLE / TOOLS ROW ── */
+    .role-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .role-pill {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--ink-2);
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 5px 12px;
+      border-radius: 2px;
+    }
+
+    /* ── BACK LINK ── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      text-decoration: none;
+      transition: color 0.2s;
+      margin-bottom: 40px;
+    }
+    .back-link:hover { color: var(--accent); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 40px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .footer-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      color: var(--ink-2);
+    }
+    .footer-note {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--ink-3);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav { padding: 0 24px; }
+      .nav-links { display: none; }
+      .hero, .section { padding: 60px 24px; }
+      .hero h1 { font-size: 36px; }
+      .before-after, .callouts, .decisions-grid { grid-template-columns: 1fr; }
+      footer { padding: 32px 24px; flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">Ivan Dominguez</a>
+    <div class="nav-links">
+      <a href="index.html#work">Work</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <a href="index.html#work" class="back-link">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M10 3L5 8l5 5"/></svg>
+      Back to Work
+    </a>
+    <div class="hero-label">Case Study 02</div>
+    <h1>University Web Projects</h1>
+    <p class="hero-desc">Two real web builds for Judson University and its acquired nursing college, Ambria — both live in production. Each project required working within an existing institutional brand system and building for real students and prospective enrollees.</p>
+    <div class="meta-row">
+      <div class="meta-item">
+        <div class="meta-label">Role</div>
+        <div class="meta-value">Web Designer & Developer</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Platform</div>
+        <div class="meta-value">WordPress (Beaver Builder + Blocks)</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Stack</div>
+        <div class="meta-value">HTML / CSS / WordPress</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Status</div>
+        <div class="meta-value">Live in Production</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       PROJECT 1 — AMBRIA TUITION PAGE
+  ══════════════════════════════════ -->
+  <div class="section">
+
+    <div class="project-header">
+      <div class="project-header-left">
+        <div class="project-tag">Project 01 — Brand Translation</div>
+        <div class="project-title">Ambria College of Nursing<br>Tuition & Fees Page</div>
+      </div>
+      <a href="https://ambria.judsonu.edu/program-tuition-and-fees/" target="_blank" class="view-live-btn">
+        View Live
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg>
+      </a>
+    </div>
+
+    <div class="role-row">
+      <span class="role-pill">WordPress Blocks</span>
+      <span class="role-pill">HTML / CSS</span>
+      <span class="role-pill">Brand Adaptation</span>
+      <span class="role-pill">Content Migration</span>
+    </div>
+
+    <div class="context-block">
+      <p>When Judson University acquired Ambria College of Nursing, Ambria's tuition and fee information existed only inside Judson's academic catalog — a dense, table-heavy page with no Ambria branding or visual hierarchy. The goal was to give that content a proper home on Ambria's own site: same information, completely different experience.</p>
+    </div>
+
+    <!-- BEFORE / AFTER -->
+    <div style="margin-bottom: 12px;">
+      <div class="section-label">Before → After</div>
+    </div>
+    <div class="before-after">
+
+      <div class="ba-panel">
+        <div class="ba-label"><span class="ba-dot ba-dot-before"></span>Source — Judson Academic Catalog</div>
+        <div class="ba-img-wrap">
+          <div class="ba-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            <span>Add screenshot of<br>catalog.judsonu.edu<br>/financial-information/ambria-charges/</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ba-panel">
+        <div class="ba-label"><span class="ba-dot ba-dot-after"></span>Redesigned — Ambria Site</div>
+        <div class="ba-img-wrap">
+          <img src="ambria-tuition.png" alt="Ambria Program Tuition and Fees page — redesigned">
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CALLOUTS -->
+    <div style="margin-bottom: 16px;">
+      <div class="section-label">Key Decisions</div>
+    </div>
+    <div class="callouts">
+      <div class="callout">
+        <div class="callout-num">01</div>
+        <div class="callout-body">
+          <div class="callout-title">Hero image for context</div>
+          <div class="callout-desc">The catalog page had no visual identity. Adding a header image immediately places the user in Ambria's world and signals this is a distinct institution, not just another Judson catalog page.</div>
+        </div>
+      </div>
+      <div class="callout">
+        <div class="callout-num">02</div>
+        <div class="callout-body">
+          <div class="callout-title">Payment dates surfaced visually</div>
+          <div class="callout-desc">In the catalog, payment deadlines were buried in a bullet list. The redesign lifts them into a three-column visual block — the most time-sensitive information is now the first thing a student sees.</div>
+        </div>
+      </div>
+      <div class="callout">
+        <div class="callout-num">03</div>
+        <div class="callout-body">
+          <div class="callout-title">Ambria brand, not Judson's</div>
+          <div class="callout-desc">Color, type, and nav all follow Ambria's identity. Students coming to Ambria's site shouldn't feel like they've accidentally landed on Judson University's catalog.</div>
+        </div>
+      </div>
+      <div class="callout">
+        <div class="callout-num">04</div>
+        <div class="callout-body">
+          <div class="callout-title">Cleaner table hierarchy</div>
+          <div class="callout-desc">The source tables had inconsistent formatting and no clear section boundaries. Each fee category is now visually distinct, making it easier to scan for what you need.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════
+       PROJECT 2 — JUDSON NEWS & EVENTS
+  ══════════════════════════════════ -->
+  <div class="section">
+
+    <div class="project-header">
+      <div class="project-header-left">
+        <div class="project-tag">Project 02 — From Scratch Design</div>
+        <div class="project-title">Judson University<br>News & Events Page</div>
+      </div>
+      <a href="https://www.judsonu.edu/news-and-events/" target="_blank" class="view-live-btn">
+        View Live
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg>
+      </a>
+    </div>
+
+    <div class="role-row">
+      <span class="role-pill">WordPress / Beaver Builder</span>
+      <span class="role-pill">HTML / CSS</span>
+      <span class="role-pill">Information Architecture</span>
+      <span class="role-pill">From Scratch</span>
+    </div>
+
+    <div class="context-block">
+      <p>Judson's existing news presence was scattered — individual department pages, no central hub, and no consistent way for the university to surface events, announcements, and press releases in one place. This page was designed and built from scratch to serve as that hub, organized around how different types of content actually get consumed.</p>
+    </div>
+
+    <!-- FULL PAGE SCREENSHOT -->
+    <div style="margin-bottom: 16px;">
+      <div class="section-label">The Page</div>
+    </div>
+    <div class="full-screenshot">
+      <div class="screenshot-bar">
+        <span class="dot dot-r"></span>
+        <span class="dot dot-y"></span>
+        <span class="dot dot-g"></span>
+        <span class="screenshot-bar-url">judsonu.edu / news-and-events</span>
+      </div>
+      <!-- Replace src with actual screenshot when live -->
+      <div class="full-screenshot-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg>
+        <span>Add full-page screenshot of the live page</span>
+      </div>
+    </div>
+
+    <!-- IA DECISIONS -->
+    <div style="margin-bottom: 16px;">
+      <div class="section-label">Information Architecture Decisions</div>
+    </div>
+    <div class="decisions-grid">
+      <div class="decision-card">
+        <div class="decision-num">01</div>
+        <div class="decision-title">Five content types, one page</div>
+        <div class="decision-desc">Events, news stories, announcements, media releases, and community submissions all live here. The challenge was giving each category visual space without the page feeling like a dump.</div>
+      </div>
+      <div class="decision-card">
+        <div class="decision-num">02</div>
+        <div class="decision-title">Sticky jump navigation</div>
+        <div class="decision-desc">A sticky section nav lets users jump directly to what they need. Someone checking for an upcoming event doesn't need to scroll past news stories to get there.</div>
+      </div>
+      <div class="decision-card">
+        <div class="decision-num">03</div>
+        <div class="decision-title">Urgency in announcements</div>
+        <div class="decision-desc">Announcements are color-coded and badged by type — urgent deadlines, campus updates, IT notices. Critical information is visually separated from general updates.</div>
+      </div>
+      <div class="decision-card">
+        <div class="decision-num">04</div>
+        <div class="decision-title">Submission CTA built in</div>
+        <div class="decision-desc">Faculty and staff need a way to submit news and events. Rather than sending them elsewhere, the submission pathway lives directly on the page — closing the loop.</div>
+      </div>
+      <div class="decision-card">
+        <div class="decision-num">05</div>
+        <div class="decision-title">Judson's brand, faithfully applied</div>
+        <div class="decision-desc">Navy, gold, and Open Sans follow Judson's existing design system. The page needed to feel native to the site, not like a new addition bolted on from outside.</div>
+      </div>
+      <div class="decision-card">
+        <div class="decision-num">06</div>
+        <div class="decision-title">Built in WordPress natively</div>
+        <div class="decision-desc">No page builder plugins — this was built directly in WordPress using blocks and custom HTML/CSS, keeping it maintainable for non-technical staff after handoff.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-name">Ivan Dominguez</div>
+    <div class="footer-note">UX Designer & CS Student — Judson University</div>
+  </footer>
+
+</body>
+</html>
