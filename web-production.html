@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>University Web Production — Ivan Dominguez</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #F5F3EE;
+      --ink: #1A1A18;
+      --ink-muted: #5A5A56;
+      --accent: #2A7D4F;
+      --accent-light: #EAF2ED;
+      --border: #D9D6CF;
+      --white: #ffffff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      padding: 20px 60px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .nav a {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--ink-muted);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+    }
+    .nav a:hover { color: var(--accent); }
+    .nav-sep { color: var(--border); font-size: 14px; }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 72px 60px 56px;
+      border-bottom: 1px solid var(--border);
+      max-width: 960px;
+    }
+    .hero-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--ink);
+      margin-bottom: 18px;
+    }
+    .hero-sub {
+      font-size: 17px;
+      color: var(--ink-muted);
+      max-width: 640px;
+      line-height: 1.7;
+      margin-bottom: 36px;
+      text-align: justify;
+    }
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .meta-pill {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      padding: 5px 12px;
+      border-radius: 2px;
+      border: 1px solid var(--border);
+      color: var(--ink-muted);
+      background: var(--white);
+    }
+
+    /* ── LAYOUT ── */
+    .content {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 60px 100px;
+    }
+
+    /* ── SECTIONS ── */
+    .section {
+      padding: 64px 0 0;
+    }
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+    .section p {
+      color: var(--ink-muted);
+      margin-bottom: 16px;
+      text-align: justify;
+    }
+    .section p:last-child { margin-bottom: 0; }
+
+    hr.divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 64px 0 0;
+    }
+
+    /* ── PROJECT HEADER ── */
+    .project-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .project-header h2 {
+      margin-bottom: 0;
+    }
+    .live-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid var(--accent);
+      padding: 6px 14px;
+      border-radius: 2px;
+      white-space: nowrap;
+      transition: background 0.15s;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+    .live-link:hover { background: var(--accent-light); }
+
+    /* ── BEFORE / AFTER ── */
+    .before-after {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 32px 0;
+    }
+    @media (max-width: 680px) {
+      .before-after { grid-template-columns: 1fr; }
+    }
+    .ba-card {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--white);
+    }
+    .ba-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 8px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--ink-muted);
+    }
+    .ba-label.after { color: var(--accent); }
+    .ba-card img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: top;
+      max-height: 340px;
+    }
+
+    /* ── FULL SCREENSHOT ── */
+    .screenshot-block {
+      margin: 32px 0;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--white);
+    }
+    .screenshot-caption {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 8px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--ink-muted);
+    }
+    .screenshot-block img {
+      width: 100%;
+      display: block;
+    }
+
+    /* ── CONTRIBUTIONS LIST ── */
+    .contrib-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 24px 0;
+    }
+    @media (max-width: 600px) {
+      .contrib-grid { grid-template-columns: 1fr; }
+    }
+    .contrib-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 16px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+    .contrib-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+      margin-top: 7px;
+    }
+    .contrib-item p {
+      font-size: 14px;
+      color: var(--ink);
+      text-align: left;
+      margin: 0;
+    }
+
+    /* ── STATUS BADGE ── */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      padding: 5px 12px;
+      border-radius: 2px;
+      margin-bottom: 24px;
+    }
+    .status-badge.pending {
+      background: #FFF8E7;
+      border: 1px solid #E8C96A;
+      color: #7A6020;
+    }
+    .status-badge.live {
+      background: var(--accent-light);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+    }
+    .status-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* ── CALLOUT ── */
+    .callout {
+      border-left: 3px solid var(--accent);
+      padding: 14px 20px;
+      margin: 28px 0;
+      background: var(--accent-light);
+      border-radius: 0 4px 4px 0;
+    }
+    .callout p {
+      color: var(--ink);
+      font-size: 15px;
+      text-align: left;
+      margin: 0;
+    }
+
+    @media (max-width: 640px) {
+      .nav, .hero, .content { padding-left: 24px; padding-right: 24px; }
+      .project-header { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html">Ivan Dominguez</a>
+    <span class="nav-sep">/</span>
+    <a href="index.html">Work</a>
+    <span class="nav-sep">/</span>
+    <a href="#">University Web Production</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero" style="margin: 0 auto; max-width: 960px; padding-left: 60px; padding-right: 60px;">
+    <p class="hero-label">Case Study — 02</p>
+    <h1>University Web<br/>Production</h1>
+    <p class="hero-sub">Building and publishing web pages for two university sites — Judson University and Ambria College of Nursing — as part of the Communications Department's digital team.</p>
+    <div class="meta-row">
+      <span class="meta-pill">Role: Web & Digital Communications Assistant</span>
+      <span class="meta-pill">Organization: Judson University</span>
+      <span class="meta-pill">Tools: WordPress · HTML · CSS</span>
+      <span class="meta-pill">2025 – Present</span>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- OVERVIEW -->
+    <div class="section">
+      <p class="section-label">Overview</p>
+      <h2>Working Inside a University's Digital Ecosystem</h2>
+      <p>As a Web & Digital Communications Assistant at Judson University, I maintain and update web content across multiple institutional sites to support marketing campaigns, events, and communications. Two of the pages I built stand as distinct examples of what that work looks like in practice — one is a content migration and redesign, and the other a full page designed and implemented from scratch.</p>
+      <p>Both pages required working within established design systems, aligning with university branding standards, and collaborating cross-functionally with marketing staff.</p>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- PROJECT 1 -->
+    <div class="section">
+      <p class="section-label">Project 01 — Ambria College of Nursing</p>
+      <div class="project-header">
+        <h2>Tuition & Fees Page</h2>
+        <a class="live-link" href="https://ambria.judsonu.edu/program-tuition-and-fees/" target="_blank">View Live Page ↗</a>
+      </div>
+
+      <span class="status-badge live"><span class="status-dot"></span>Live</span>
+
+      <p>The fee information for Ambria's nursing programs existed only in the university's academic catalog — a dense, navigation-heavy reference document shared across all Judson programs. Prospective nursing students looking for tuition costs on the Ambria website had no direct page to land on.</p>
+      <p>The task was to extract that content and rebuild it as a purpose-built page within the Ambria site, matching the site's design system and making the information immediately scannable for someone evaluating whether to enroll.</p>
+
+      <div class="before-after">
+        <div class="ba-card">
+          <div class="ba-label">Before — Academic Catalog</div>
+          <img src="judson-tuition.png" alt="Original catalog page with dense tables and navigation sidebar" />
+        </div>
+        <div class="ba-card">
+          <div class="ba-label after">After — Ambria Website</div>
+          <img src="ambria-tuition.png" alt="Redesigned Ambria tuition page with hero image and clean layout" />
+        </div>
+      </div>
+
+      <div class="contrib-grid">
+        <div class="contrib-item">
+          <div class="contrib-dot"></div>
+          <p>Extracted and structured fee data from the academic catalog into logical grouped sections</p>
+        </div>
+        <div class="contrib-item">
+          <div class="contrib-dot"></div>
+          <p>Built the page in WordPress matching Ambria's established visual design system</p>
+        </div>
+        <div class="contrib-item">
+          <div class="contrib-dot"></div>
+          <p>Added a hero image to give the page visual context consistent with other Ambria pages</p>
+        </div>
+        <div class="contrib-item">
+          <div class="contrib-dot"></div>
+          <p>Formatted fee tables for clarity, prioritizing scannability over catalog-style density</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <p>The catalog version buries cost information inside a full institutional document. The redesigned page puts it where students actually look — on the Ambria site, one click from the programs page.</p>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- PROJECT 2 -->
+    <div class="section">
+      <p class="section-label">Project 02 — Judson University</p>
+      <div class="project-header">
+        <h2>News & Events Hub</h2>
+        <a class="live-link" href="judson-news-events.html" target="_blank">View Design File ↗</a>
+      </div>
+
+      <span class="status-badge pending"><span class="status-dot"></span>Pending Publication</span>
+
+      <p>Judson University lacked a single, centralized hub for campus news and events. Information was spread across separate department pages, a calendar system, and press release archives — requiring users to know which section to navigate to before they could find anything.</p>
+      <p>I designed and implemented this page from scratch: the architecture, the visual layout, and the WordPress implementation. The goal was a single destination that consolidates upcoming events, campus news, announcements, and media releases under one organized interface.</p>
+
+      <div class="screenshot-block">
+        <div class="screenshot-caption">Page Design — judsonu.edu/news-and-events/</div>
+        <img src="judson-news-events.png" alt="Judson News and Events page design showing tabbed navigation, featured event card, and event grid" />
+      </div>
+
+      <div class="contrib-grid">
+        <div class="contrib-item">
+          <div class="contrib-dot"></div>
+          <p>Designed the full page layout from scratch, including information architecture across four content categories</p>
+        </div>
+        <div class="contrib-item">
+          <div class="contrib-dot"></div>
+          <p>Built tabbed navigation — Upcoming Events, Campus News, Announcements, Media Releases</p>
+        </div>
+        <div class="contrib-item">
+          <div class="contrib-dot"></div>
+          <p>Designed the featured event card component with a visual hierarchy that anchors the page</p>
+        </div>
+        <div class="contrib-item">
+          <div class="contrib-dot"></div>
+          <p>Implemented within Judson's design system using the university's established navy and gold brand colors</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <p>The page is complete and awaiting final review by a colleague before publication. The design is implemented and ready to go live.</p>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- REFLECTION -->
+    <div class="section">
+      <p class="section-label">Reflection</p>
+      <h2>What This Work Taught Me</h2>
+      <p>Working inside an institution's existing digital ecosystem is a different challenge from designing from scratch. Every decision has to account for brand guidelines, existing CMS constraints, and the fact that changes go live on a domain that thousands of people visit.</p>
+      <p>These two pages represent the range of that work — one grounded in content strategy and information clarity, the other in design and architecture. Both required the same discipline: understanding what the user needs to find, and making sure the page gets out of the way and lets them find it.</p>
+    </div>
+
+  </div>
+
+</body>
+</html>
