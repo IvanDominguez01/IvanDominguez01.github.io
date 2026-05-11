@@ -7,11 +7,11 @@ Computer Science student at Judson University.
 ### Student Portal Redesign
 Redesigned the university registration dashboard to reduce student stress and improve information hierarchy.
 
-[View Live Project](https://ivandominguez01.github.io/student-portal-redesign)
+[View Live Project](https://ivandominguez01.github.io/registration-portal.html)
 
 ### Project 2
 [Description coming soon]
 
 ## Contact
 - Email: ivanfmdominguez@gmail.com
-- LinkedIn: [MyLinkedIn](linkedin.com/in/ivan-dominguez-1673a02a0)
+- LinkedIn: [MyLinkedIn](https://www.linkedin.com/in/ivan-dominguez-1673a02a0)
