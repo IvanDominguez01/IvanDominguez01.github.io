@@ -119,28 +119,15 @@
             opacity: 0;
             animation: fadeUp 0.9s 0.7s forwards;
         }
-        .hero-dots {
-            display: flex;
-            gap: 6px;
-            margin-top: 3rem;
-            opacity: 0;
-            animation: fadeUp 0.9s 0.9s forwards;
-        }
-        .dot {
-            width: 6px; height: 6px;
-            border-radius: 50%;
-            background: rgba(245,243,238,0.2);
-        }
-        .dot.active { background: var(--accent); }
-
         .scroll-cue {
             position: absolute;
             bottom: 2.5rem;
             font-family: var(--mono);
-            font-size: 0.62rem;
-            letter-spacing: 0.14em;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: rgba(245,243,238,0.25);
+            color: rgba(245,243,238,0.6);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -150,8 +137,8 @@
         }
         .scroll-cue::after {
             content: '';
-            width: 1px; height: 36px;
-            background: linear-gradient(to bottom, rgba(245,243,238,0.25), transparent);
+            width: 1px; height: 40px;
+            background: linear-gradient(to bottom, var(--accent), transparent);
             animation: drip 2s ease infinite;
         }
         @keyframes drip {
@@ -477,7 +464,7 @@
     <a href="#hero" class="nav-logo" id="navLogo">I.D.</a>
     <ul class="nav-links" id="navLinks">
         <li><a href="#about">About</a></li>
-        <li><a href="#work">Work</a></li>
+        <li><a href="#work">Projects</a></li>
         <li><a href="#contact">Contact</a></li>
     </ul>
 </nav>
@@ -490,11 +477,6 @@
         <em>Dominguez</em>
     </h1>
     <p class="hero-role">Research &nbsp;&middot;&nbsp; Design &nbsp;&middot;&nbsp; Code</p>
-    <div class="hero-dots">
-        <div class="dot active"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-    </div>
     <div class="scroll-cue">Scroll</div>
 </section>
 
@@ -504,20 +486,18 @@
         <div class="about-text-col">
             <p class="section-eyebrow reveal">About me</p>
             <h2 class="section-heading reveal">
-                I design with <em>empathy</em> and build with code.
+                Excited to jump into what's <em>next</em>.
             </h2>
             <p class="about-bio reveal">
-                I am a results-oriented Computer Science student at Judson University seeking a stimulating work environment to apply my effective communication, problem-solving, and fast-learning skills in an internship opportunity in the technology world. My focus is UX research and design — I interview real users, find where they get stuck, then design and build the fix.
+                I'm an international student finishing my Computer Science degree at Judson University. I'm looking to gain real experience in tech — IT roles broadly, UI/UX design preferably. I learn fast, adapt quickly, and I'm ready to dive in.
             </p>
             <div class="pills reveal">
                 <span class="pill">Figma</span>
                 <span class="pill">UX Research</span>
                 <span class="pill">Contextual Inquiry</span>
                 <span class="pill">HTML / CSS</span>
-                <span class="pill">JavaScript</span>
-                <span class="pill">React</span>
                 <span class="pill">Prototyping</span>
-                <span class="pill">Tailwind</span>
+                <span class="pill">WordPress</span>
             </div>
         </div>
         <div class="about-photo-col reveal">
@@ -532,7 +512,7 @@
 <section class="panel" id="work">
     <div class="work-top reveal">
         <div>
-            <div class="work-eyebrow">Selected Work</div>
+            <div class="work-eyebrow">Selected Projects</div>
             <h2 class="work-heading">Case Studies</h2>
         </div>
         <span class="work-tally">01 &ndash; 02</span>
@@ -583,7 +563,7 @@
         Open to<br><em>opportunities.</em>
     </h2>
     <p class="contact-sub reveal">
-        Looking for internships and entry-level roles in UX design and front-end development.
+        Looking for internships and entry-level roles in UX/UI design and front-end development.
     </p>
     <div class="contact-btns reveal">
         <a href="mailto:ivanfmdominguez@gmail.com" class="cbtn primary">
