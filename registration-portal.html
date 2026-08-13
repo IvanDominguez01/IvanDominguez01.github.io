@@ -44,9 +44,9 @@
 
         /* HERO */
         .case-hero {
-            background: var(--ink);
-            padding: 14vh 8vw 8vh;
-            min-height: 80vh;
+            background: var(--bg);
+            padding: 13vh 8vw 5vh;
+            border-bottom: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
@@ -57,20 +57,20 @@
             color: var(--accent); border: 1px solid rgba(42,125,79,0.4); padding: 0.3rem 0.7rem; border-radius: 2px;
         }
         .case-hero h1 {
-            font-family: var(--serif); font-size: clamp(2.8rem, 6vw, 5.5rem); font-weight: 900;
-            line-height: 0.95; letter-spacing: -0.03em; color: var(--bg); max-width: 900px; margin-bottom: 1.5rem;
+            font-family: var(--serif); font-size: clamp(2.2rem, 4.4vw, 3.6rem); font-weight: 700;
+            line-height: 1.05; letter-spacing: -0.02em; color: var(--ink); max-width: 780px; margin-bottom: 1.25rem;
         }
         .case-hero h1 em { font-style: italic; color: var(--accent); }
-        .case-hero-sub { font-size: 1.05rem; color: rgba(245,243,238,0.5); max-width: 580px; line-height: 1.7; margin-bottom: 3rem; }
+        .case-hero-sub { font-size: 1.02rem; color: var(--ink-mid); max-width: 580px; line-height: 1.7; margin-bottom: 2.5rem; }
 
         .meta-row {
             display: flex; gap: 3rem; flex-wrap: wrap;
-            padding-top: 2.5rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
         }
         .meta-item { display: flex; flex-direction: column; gap: 0.3rem; }
-        .meta-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(245,243,238,0.3); }
-        .meta-value { font-size: 0.9rem; color: rgba(245,243,238,0.75); font-weight: 500; }
+        .meta-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
+        .meta-value { font-size: 0.9rem; color: var(--ink); font-weight: 500; }
 
         /* CONTENT WRAPPER */
         .content { max-width: 900px; margin: 0 auto; padding: 0 5vw; }
